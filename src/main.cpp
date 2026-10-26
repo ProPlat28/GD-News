@@ -180,7 +180,7 @@ namespace {
     constexpr float SCROLL_W   = VIEW_W - 12.f;
     // How far the TOP edge of the scroll area is pushed up (bottom edge stays put).
     // 0 = original, bigger = text/thumbnail can go higher before being clipped.
-    constexpr float SCROLL_EXTRA_TOP = 6.f;
+    constexpr float SCROLL_EXTRA_TOP = 6.5f;
     constexpr float SCROLL_H   = VIEW_H - 12.f + SCROLL_EXTRA_TOP; // real visible height of the scroll area
     constexpr float TOP_PAD    = 18.2f;           // page top -> date centre
     constexpr float BOTTOM_PAD = 8.f;             // thumbnail bottom -> page end
@@ -403,10 +403,14 @@ protected:
         // Scrollbar
         m_barH   = VIEW_H - 16.f;
         m_barTop = -POPUP_H / 2.f + 11.f + VIEW_H - 8.f;
+        // zOrder 3: must be ABOVE the font.png panel (z 1) and the clip node (z 2),
+        // otherwise the bar is drawn underneath them and is invisible.
         m_barTrack = CCLayerColor::create(ccc4(190, 130, 100, 70), 2.8f, m_barH);
+        m_barTrack->setZOrder(3);
         m_mainLayer->addChildAtPosition(m_barTrack, Anchor::Center,
             {166.f - 1.4f, m_barTop - m_barH});
         m_barThumb = CCLayerColor::create(ccc4(215, 170, 145, 210), 2.8f, 13.f);
+        m_barThumb->setZOrder(3);
         m_mainLayer->addChildAtPosition(m_barThumb, Anchor::Center,
             {166.f - 1.4f, m_barTop - 30.f});
 
